@@ -17,6 +17,7 @@ import {
 import ElectronUtils from '../utils/electronUtils';
 import electronObjects from '../store/electronObjects';
 import { returnToSearchPage } from './bot';
+import { entrySelector } from '../constants/querySelectors';
 
 function parseBoolean(stringBoolean: StringBoolean): boolean {
   return stringBoolean === 'true';
@@ -76,7 +77,7 @@ export function getOverviewData(): ThunkAction {
         for (let i = 0; i < rawOverviewData.length; i++) {
           const entry = rawOverviewData[i];
           const hasApplied = await electronUtils.evaluate(
-            `document.querySelector('[data-id="${entry['@id']}"]').getElementsByClassName("shortlist-star--shortlisted").length > 0`
+            `document.querySelector('${entrySelector(entry['@id'])}').getElementsByClassName("shortlist-star--shortlisted").length > 0`
           );
           entry.alreadyApplied = hasApplied;
           const processedEntry = processOverviewDataEntry(entry);

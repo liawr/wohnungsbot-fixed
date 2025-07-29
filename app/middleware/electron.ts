@@ -63,7 +63,12 @@ export default (store: Store) =>
         store.dispatch(setBrowserViewReady(name, true));
       });
       browserView.webContents.setWindowOpenHandler((details) => {
-        shell.openExternal(details.url);
+        if (details.url.includes('goToExpose.go')) {
+          store.dispatch(electronRouting(name, details.url));
+        } else {
+          shell.openExternal(details.url);
+        }
+
         return {
           action: 'deny'
         };
