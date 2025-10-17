@@ -1,0 +1,29 @@
+From bd0977750727753b24054baa4e99d0eb4a41cec1 Mon Sep 17 00:00:00 2001
+From: cronjoe <tobi.ffo@googlemail.com>
+Date: Wed, 20 Nov 2024 21:45:14 +0100
+Subject: [PATCH] fix: Check if contact details are set
+
+Refs: #203
+---
+ app/actions/data.ts | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/app/actions/data.ts b/app/actions/data.ts
+index 99203a0..e28657d 100644
+--- a/app/actions/data.ts
++++ b/app/actions/data.ts
+@@ -36,10 +36,10 @@ function processOverviewDataEntry(
+       street: realEstate.address.street
+     },
+     contactDetails: {
+-      salutation: realEstate.contactDetails.salutation,
+-      firstName: realEstate.contactDetails.firstname,
+-      lastName: realEstate.contactDetails.lastname,
+-      company: realEstate.contactDetails.company
++      salutation: typeof realEstate.contactDetails !== "undefined" ? realEstate.contactDetails.salutation : "NO_SALUTATION",
++      firstName: typeof realEstate.contactDetails !== "undefined" ? realEstate.contactDetails.firstname : "",
++      lastName: typeof realEstate.contactDetails !== "undefined" ? realEstate.contactDetails.lastname : "",
++      company: typeof realEstate.contactDetails !== "undefined" ? realEstate.contactDetails.company : ""
+     },
+     rent: parseFloat(realEstate.price.value),
+     area: parseFloat(realEstate.livingSpace),
